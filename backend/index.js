@@ -10,13 +10,32 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const htmlContent = `<html lang="en">
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "info@icsteet.com",
+    pass: "qsyq vgwk mmzy cyaz",
+  },
+});
+
+app.post("/send-email", (req, res) => {
+  const { Email } = req.body;
+
+  const subject = "Call for Papers ICSTEET 2025";
+
+  const htmlContent = `<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&display=swap"
+      rel="stylesheet"
+    />
+    <title>ICSTEET</title>
   </head>
-  <body style="margin: 10px; padding: 0; font-family: 'Poppins', sans-serif">
+  <body style="margin: 10px; padding: 0; color: black; font-family: 'Poppins', sans-serif">
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
       <tr>
         <td>
@@ -30,19 +49,15 @@ const htmlContent = `<html lang="en">
             <tr>
               <td
                 style="
-                  background: linear-gradient(
-                      90deg,
-                      rgba(53, 53, 53, 0.712) 0%,
-                      rgba(255, 255, 255, 0) 100%
-                    ),
-                    url(https://ibb.co/1R3K33P);
+                  background: rgb(80,203,139);
+                  background: linear-gradient(90deg, rgba(80,203,139,1) 0%, rgba(205,217,81,1) 100%);
                   background-repeat: no-repeat;
                   background-size: cover;
                   background-position: center;
                   color: white;
                   padding: 20px;
                   box-sizing: border-box;
-                  height: 400px;
+                  height: 300px;
                 "
               >
                 <h1
@@ -66,6 +81,7 @@ const htmlContent = `<html lang="en">
                 <h2 style="margin: 0; font-size: 20px">
                   Hybrid conference (In person + Virtual)
                 </h2>
+                <p>Organizer: Confworld Educational Research and Development Association</p>
               </td>
             </tr>
           </table>
@@ -76,23 +92,23 @@ const htmlContent = `<html lang="en">
                 <h1 style="font-size: 22px; font-weight: 600; padding: 0">
                   Dear Sir/Ma'am,
                 </h1>
-                <p style="margin: 10px 0; font-size: 15px; font-weight: 450">
+                <p style="margin: 10px 0; font-size: 15px;">
                   Confworld Educational Research and Development Association
                   (CERADA) is elated to announce our “International Conference
                   on Social Sciences, Teaching & Education, Engineering, and
                   Technology (ICSTEET-2025)” which is scheduled to be held on
-                  22nd and 23rd January 2025 in Manila, Philippines (Hybrid). It
+                  22 - 23 January 2025 in Manila, Philippines (Hybrid). It
                   is our pleasure to inform you about the Abstract submission &
                   Registration details of the conference. Please find the
                   detailed information about conference below.
                 </p>
-                <p style="margin: 10px 0; font-size: 15px; font-weight: 450">
+                <p style="margin: 10px 0; font-size: 15px;">
                   We believe that your presence here at ICSTEET will assist many
                   individuals in better understanding and to overcome the
                   difficulties in the field of Social sciences, Education and
                   Engineering & Technology.
                 </p>
-                <p style="margin: 10px 0; font-size: 15px; font-weight: 450">
+                <p style="margin: 10px 0; font-size: 15px;">
                   Hope to see you at the conference!
                 </p>
               </td>
@@ -129,16 +145,7 @@ const htmlContent = `<html lang="en">
                       text-align: center;
                     "
                   >
-                    Abstract submission deadline: 1<span
-                      style="
-                        font-size: 13px;
-                        margin-top: -10px;
-                        display: inline-block;
-                        transform: translateY(-6px);
-                      "
-                      >st</span
-                    >
-                    November 2024
+                    Abstract submission deadline: 1 November 2024
                   </li>
                   <li
                     style="
@@ -148,16 +155,7 @@ const htmlContent = `<html lang="en">
                       text-align: center;
                     "
                   >
-                    Full paper submission: 30<span
-                      style="
-                        font-size: 13px;
-                        margin-top: -10px;
-                        display: inline-block;
-                        transform: translateY(-6px);
-                      "
-                      >th</span
-                    >
-                    November 2024
+                    Full paper submission: 30 November 2024
                   </li>
                   <li
                     style="
@@ -167,16 +165,7 @@ const htmlContent = `<html lang="en">
                       text-align: center;
                     "
                   >
-                    Early bird registration: 30<span
-                      style="
-                        font-size: 13px;
-                        margin-top: -10px;
-                        display: inline-block;
-                        transform: translateY(-6px);
-                      "
-                      >th</span
-                    >
-                    October 2024
+                    Early bird registration: 30 October 2024
                   </li>
                 </ul>
               </td>
@@ -230,7 +219,6 @@ const htmlContent = `<html lang="en">
                   border="0"
                   style="
                     display: inline-block;
-                    margin-left: 50px;
                     background-color: #ffc872;
                     padding: 20px;
                     border-radius: 10px;
@@ -273,14 +261,14 @@ const htmlContent = `<html lang="en">
                   Thanks and Regards,
                 </h2>
                 <h2
-                  style="margin: 10px 0px 0px 0px; font-size: 18px; padding: 0"
+                  style="margin: 5px 0px 0px 0px; font-size: 18px; padding: 0"
                 >
                   ICSTEET Team
                 </h2>
                 <h2
-                  style="margin: 10px 0px 20px 0px; font-size: 18px; padding: 0"
+                  style="margin: 5px 0px 20px 0px; font-size: 18px; padding: 0"
                 >
-                  CERADA
+                  CERADA <a style="font-size: 17px;" href="https://confworld.org">https://confworld.org</a>
                 </h2>
                 <p style="margin-bottom: 0; font-weight: 500">
                   E-mail:
@@ -290,7 +278,7 @@ const htmlContent = `<html lang="en">
                 </p>
                 <p style="margin-top: 5px; font-weight: 500">
                   Website:
-                  <a href="https://icsteet.com/" style="color: blue"
+                  <a style="font-size: 17px;" href="https://icsteet.com/" style="color: blue"
                     >https://icsteet.com/</a
                   >
                 </p>
@@ -303,20 +291,6 @@ const htmlContent = `<html lang="en">
   </body>
 </html>
 `;
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "info@icsteet.com",
-    pass: "qsyq vgwk mmzy cyaz",
-  },
-});
-
-app.post("/send-email", (req, res) => {
-  console.log(req.body);
-  const { Email } = req.body;
-
-  const subject = "Call for Papers ICSTEET 2025";
 
   const mailOptions = {
     from: "info@icsteet.com",

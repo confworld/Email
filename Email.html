@@ -41,9 +41,13 @@
               if (data.success) {
                 document.getElementById("message").innerText =
                   "Mail Sent Successfully!";
+                setTimeout(() => {
+                  document.getElementById("message").innerText = "";
+                }, 2000);
+                document.getElementById("to").value = "";
               } else {
                 document.getElementById("message").innerText =
-                  "Failed to Send Mail: " + data.message;
+                  "Failed to Send Mail";
               }
             })
             .catch((error) => {
