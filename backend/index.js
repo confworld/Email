@@ -96,7 +96,7 @@ module.exports = async (req, res) => {
           <table width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
               <td>
-                <h1 style="font-size: 22px; font-weight: 600; padding: 0">
+                <h1 style="font-size: 20px; font-weight: 500; padding: 0">
                   Dear Sir/Ma'am,
                 </h1>
                 <p style="margin: 10px 0; font-size: 15px;">
